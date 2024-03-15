@@ -20,6 +20,8 @@ DOWNLOADER_MIDDLEWARES = {
     "scrapy.downloadermiddlewares.useragent.UserAgentMiddleware": None,
     "scrapy_fake_useragent.middleware.RandomUserAgentMiddleware": 400,
 }
+
+DOWNLOAD_DELAY = 2 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 #USER_AGENT = "imdb (+http://www.yourdomain.com)"
 
@@ -69,9 +71,9 @@ ROBOTSTXT_OBEY = False
 
 # Configure item pipelines
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
-#ITEM_PIPELINES = {
-#    "imdb.pipelines.ImdbPipeline": 300,
-#}
+ITEM_PIPELINES = {
+    "imdb.pipelines.ImdbPipeline": 300,
+}
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See https://docs.scrapy.org/en/latest/topics/autothrottle.html

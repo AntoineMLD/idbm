@@ -6,7 +6,16 @@
 import scrapy
 
 
-class ImdbItem(scrapy.Item):
-    # define the fields for your item here like:
-    # name = scrapy.Field()
-    pass
+class FilmItem(scrapy.Item):
+    
+    titre = scrapy.Field()
+    score = scrapy.Field()
+    nombre_vote = scrapy.Field()
+    genre = scrapy.Field()
+    annee_pegi_duree = scrapy.Field()
+    description = scrapy.Field()
+    casting_principal = scrapy.Field()  
+    langue = scrapy.Field()
+    pays = scrapy.Field()
+
+

@@ -11,3 +11,11 @@ from itemadapter import ItemAdapter
 class ImdbPipeline:
     def process_item(self, item, spider):
         return item
+
+
+class NoneFilterPipeline:
+    def process_item(self, item, spider):
+        for key, value in item.items():
+            if value is None:
+                item[key] = ''
+        return item
