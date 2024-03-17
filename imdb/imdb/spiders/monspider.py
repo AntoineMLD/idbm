@@ -70,8 +70,7 @@ class MonspiderSpider(CrawlSpider):
             pegi = pegi_film
             duree = duree_film
             saisons = None
-
-        
+     
         
 
         
