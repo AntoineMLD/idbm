@@ -5,14 +5,18 @@ from imdb.items import FilmItem
 
 class MonspiderSpider(CrawlSpider):
     name = "monspider"
+    handle_httpstatus_list = [503]
     allowed_domains = ["www.imdb.com"]
     start_urls = ["https://www.imdb.com/chart/top/?ref_=nv_mv_250"]
     titres_vu = set() 
-    rules = (
+    rules = (gi
         Rule(LinkExtractor(allow=(r'/title/tt\d+/')), callback="parse_film", follow=True),
     )
 
     def parse_film(self, response):
+        if response.status == 503:
+            # Logique personnalisée en cas de réponse 503
+            self.logger.warning(f"Service indisponible lors de l'accès à {response.url}")
         # Titre du film
         titre_film = response.xpath('//h1[@data-testid="hero__pageTitle"]//span/text()').get() or "No Title"
         if titre_film is None or titre_film in self.titres_vu:
@@ -23,10 +27,10 @@ class MonspiderSpider(CrawlSpider):
             
 
         # Score du film
-        score_film = response.xpath('//div[contains(@data-testid, "hero-rating-bar__aggregate-rating__score")]/span/text()').get() or "No Score"
+        score_film = response.xpath('//div[contains(@data-testid, "hero-rating-bar__aggregate-rating__score")]/span/text()').get() or "0"
 
         # Nombre de vote
-        nbre_vote_film = response.xpath('//div[@data-testid="hero-rating-bar__aggregate-rating__score"]/following-sibling::div[2]/text()').get() or "No vote's number"
+        nbre_vote_film = response.xpath('//div[@data-testid="hero-rating-bar__aggregate-rating__score"]/following-sibling::div[2]/text()').get() or "0"
 
         # Genre du film
         genre_film = response.xpath('//div[@data-testid="genres"]//div//a/span/text()').getall() or ["No kind"]
@@ -48,8 +52,8 @@ class MonspiderSpider(CrawlSpider):
         pegi_film = response.xpath('//h1/following-sibling::ul[1]/li[2]//text()').get() or "No Pegi"
 
         # Heure du film et séries
-        duree_serie = response.xpath('//h1/following-sibling::ul/li[4]/text()').get() or "No Time"
-        duree_film = response.xpath('//h1/following-sibling::ul[1]/li[3]//text()').get() or "No Time"
+        duree_serie = response.xpath('//h1/following-sibling::ul/li[4]/text()').get() or "0"
+        duree_film = response.xpath('//h1/following-sibling::ul[1]/li[3]//text()').get() or "0"
 
         # Saisons des séries
         saisons = response.xpath('//div[@data-testid="episodes-browse-episodes"]/div/following-sibling::div/a/following-sibling::span/span/label/text()').get() or "No saisons"
@@ -58,14 +62,14 @@ class MonspiderSpider(CrawlSpider):
         is_serie = response.xpath('//h1/following-sibling::ul[1]/li[contains(., "TV Series")]')
         if is_serie:
             serie = "Série TV"
-            annee_serie = response.xpath('//h1/following-sibling::ul/li[2]/a/text()').get() or "No years"
+            annee_serie = response.xpath('//h1/following-sibling::ul/li[2]/a/text()').get() or "0"
             annee_film = None  
             pegi = pegi_serie
             duree = duree_serie
             saisons = saisons
         else:
             serie = "Film"
-            annee_film = response.xpath('//h1/following-sibling::ul[1]/li[1]//text()').get() or "No years"
+            annee_film = response.xpath('//h1/following-sibling::ul[1]/li[1]//text()').get() or "0"
             annee_serie = None
             pegi = pegi_film
             duree = duree_film

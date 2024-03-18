@@ -25,12 +25,12 @@ class PostgreSQLPipeline:
             annee INT,
             annee_serie TEXT,
             score TEXT,
-            nombre_vote TEXT,
+            nombre_vote INT,
             description TEXT,
             casting_principal TEXT,
             langue TEXT,
             pays TEXT,
-            details TEXT,
+            details TEXT
         )
         """)
 
@@ -40,13 +40,18 @@ class PostgreSQLPipeline:
         genre = ';'.join(item.get('genre', []))  
         casting_principal = ';'.join(item.get('casting_principal', []))  
         langue = ';'.join(item.get('langue', []))  
-        pays = ';'.join(item.get('pays', []))  
-        annee = ';'.join(item.get('annee', []))
-        pegi = ';'.join(item.get('pegi', []))
-        duree = ';'.join(item.get('duree', []))
-        serie = ';'.join(item.get('serie', []))
-        saisons = ';'.join(item.get('saisons', []))
-        annee_serie = ';'.join(item.get('annee_serie', []))
+        pays = ';'.join(item.get('pays', []))
+        annee_value = item.get('annee', 0)
+        try:
+            annee = int(annee_value) if annee_value is not None else 0
+        except ValueError:
+            annee = 0   
+        annee = int(annee_value) if annee_value is not None else 0 
+        pegi = item.get('pegi')
+        duree = self.convert_time(item.get('duree', '0'))
+        serie = item.get('serie')
+        saisons = item.get('saisons')
+        annee_serie = ';'.join(item.get('annee_serie', []) or [] )
         details = ';'.join(item.get('details', []))
         
         
@@ -85,3 +90,17 @@ class PostgreSQLPipeline:
         except ValueError:
             return 0
 
+
+    def convert_time(self, duree):
+        print(f"Conversion de la durée: '{duree}'")  # Débogage
+        parts = duree.split(' ')
+        heures = 0
+        minutes = 0
+        for part in parts:
+            if 'h' in part:
+                heures = int(part.replace('h', '')) * 60
+            elif 'm' in part:
+                minutes = int(part.replace('m', ''))
+        total_minutes = heures + minutes
+        print(f"Total en minutes: {total_minutes}")  # Débogage
+        return total_minutes

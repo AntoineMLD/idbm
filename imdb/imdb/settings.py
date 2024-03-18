@@ -21,12 +21,14 @@ DOWNLOADER_MIDDLEWARES = {
     "scrapy_fake_useragent.middleware.RandomUserAgentMiddleware": 400,
 }
 
-#DOWNLOAD_DELAY = 0.5
+RETRY_TIMES = 2  # Réduire le nombre de tentatives de reconnexion
+DOWNLOAD_DELAY = 1.0  # Attendre au moins 1 seconde entre chaque requête
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 #USER_AGENT = "imdb (+http://www.yourdomain.com)"
 
 # Obey robots.txt rules
 ROBOTSTXT_OBEY = False
+
 
 # limite les requetes pour les test
 #CLOSESPIDER_ITEMCOUNT = 10
