@@ -9,7 +9,7 @@ class MonspiderSpider(CrawlSpider):
     allowed_domains = ["www.imdb.com"]
     start_urls = ["https://www.imdb.com/chart/top/?ref_=nv_mv_250"]
     titres_vu = set() 
-    rules = (gi
+    rules = (
         Rule(LinkExtractor(allow=(r'/title/tt\d+/')), callback="parse_film", follow=True),
     )
 
