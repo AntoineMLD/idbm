@@ -19,16 +19,16 @@ USER_AGENT = 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:52.0) Gecko/20100101 Fi
 DOWNLOADER_MIDDLEWARES = {
     "scrapy.downloadermiddlewares.useragent.UserAgentMiddleware": None,
     "scrapy_fake_useragent.middleware.RandomUserAgentMiddleware": 400,
+    
 }
 
 RETRY_TIMES = 2  # Réduire le nombre de tentatives de reconnexion
-DOWNLOAD_DELAY = 1.0  # Attendre au moins 1 seconde entre chaque requête
+#DOWNLOAD_DELAY = 1.0  # Attendre au moins 1 seconde entre chaque requête
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 #USER_AGENT = "imdb (+http://www.yourdomain.com)"
 
 # Obey robots.txt rules
 ROBOTSTXT_OBEY = False
-
 
 # limite les requetes pour les test
 #CLOSESPIDER_ITEMCOUNT = 10

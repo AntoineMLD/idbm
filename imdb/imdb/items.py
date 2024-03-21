@@ -10,12 +10,11 @@ class FilmItem(scrapy.Item):
     
     titre=scrapy.Field()
     genre = scrapy.Field()
-    serie= scrapy.Field()
+    type_= scrapy.Field()
     pegi= scrapy.Field()
     duree= scrapy.Field()
     saisons= scrapy.Field()
     annee= scrapy.Field()
-    annee_serie= scrapy.Field()
     score= scrapy.Field()
     nombre_vote= scrapy.Field()
     description= scrapy.Field()
@@ -23,7 +22,8 @@ class FilmItem(scrapy.Item):
     langue= scrapy.Field()
     pays= scrapy.Field()
     details= scrapy.Field()
-
+    url=scrapy.Field()
     
 
+    
 
